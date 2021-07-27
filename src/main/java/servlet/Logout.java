@@ -20,7 +20,7 @@ public class Logout extends HttpServlet {
         HttpSession session = request.getSession();
         session.invalidate();
 
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/index.jsp");
         rd.forward(request, response);
     }
 

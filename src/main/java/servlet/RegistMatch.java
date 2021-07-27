@@ -39,7 +39,7 @@ public class RegistMatch extends HttpServlet {
         // requestオブジェクトから登録情報の取り出し
         int id = 0;
         String name = request.getParameter("name");
-        Match match = new Match(id,name);
+        Match match = new Match(id,name,null,null);
         // MatchManagerオブジェクトの生成
         MatchManager manager = new MatchManager();
 
@@ -52,7 +52,11 @@ public class RegistMatch extends HttpServlet {
           // forwardはrequestオブジェクトを引数として、次のページに渡すことができる
           RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/TOP.jsp");
           dispatcher.forward(request, response);
-          System.out.println("OK牧場");
+        }else{
+            String error = "大会名がすでに登録されています。";
+            request.setAttribute("Error", error);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/registmatch.jsp");
+            dispatcher.forward(request, response);
         }
     }
 }

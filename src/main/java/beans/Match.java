@@ -1,57 +1,41 @@
 //  自分が格納されているフォルダ名
 package beans;
 
-public class Match {
+import java.sql.Timestamp;
+
+public class Match extends Default{
 
     // 属性
-    private int id = 0; //大会名識別ID
-    private String matchName = null;//大会名
+    private String name = null;//大会名
 
 
 	/**
 	* Default empty Match constructor
 	*/
 	public Match() {
+		super();
 	}
 
 	/**
 	* Default Match constructor
 	*/
-	public Match(int id, String matchName) {
-		this.id = id;
-		this.matchName = matchName;
+	public Match(int ID, String name, Timestamp created_at, Timestamp updated_at) {
+		super(ID,created_at, updated_at);
+		this.name = name;
 	}
-
-
 	/**
-	* Returns value of id
+	* Returns value of Name
 	* @return
 	*/
-	public int getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	* Sets new value of id
+	* Sets new value of Name
 	* @param
 	*/
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	* Returns value of matchName
-	* @return
-	*/
-	public String getMatchName() {
-		return matchName;
-	}
-
-	/**
-	* Sets new value of matchName
-	* @param
-	*/
-	public void setMatchName(String matchName) {
-		this.matchName = matchName;
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.User;
 import control.UserManager;
@@ -44,23 +45,22 @@ public class RegistUser extends HttpServlet {
         System.out.println("取得した文字列は" + pass + "です！");
 
         // userオブジェクトに情報を格納
-        User user = new User(id, name, pass);
+        User user = new User(id, name, pass,null,null);
 
         // userManagerオブジェクトの生成
         UserManager manager = new UserManager();
         User search_user = manager.searchUser(user);
         if(search_user == null){
           manager.registUser(user);
-          request.setAttribute("User", user);
+          HttpSession session = request.getSession();
+          session.setAttribute("user", user);
           RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/TOP.jsp");
           dispatcher.forward(request, response);
-          System.out.println("OK牧場");
         }else{
           error = "アカウントがすでに作成されています。";
           request.setAttribute("Error", error);
           RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/registuser.jsp");
           dispatcher.forward(request, response);
-          System.out.println("OK牧場");
         }
     }
 }

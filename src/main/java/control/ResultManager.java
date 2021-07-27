@@ -5,73 +5,74 @@ package control;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import beans.Match;
-import dao.MatchDAO;
+import beans.Result;
+import dao.ResultDAO;
 
-public class MatchManager {
+public class ResultManager {
 
     // 属性
     private Connection connection = null;
 
     // 引数を持たないコンストラクタ
-    public MatchManager() {
+    public ResultManager() {
     }
 
     // 追加
     // 引数はStudentオブジェクト
-    public void registMatch(Match match) {
+    public void registResult(Result result) {
 
         // StudentDAOオブジェクト生成
-        MatchDAO matchDAO = new MatchDAO();
+        ResultDAO resultDAO = new ResultDAO();
 
         // DataBaseへ接続し、コネクションオブジェクトを生成する
-        this.connection = matchDAO.createConnection();
+        this.connection = resultDAO.createConnection();
 
         // StudentオブジェクトをDataBaseに登録する
-        matchDAO.registMatch(match, this.connection);
+        resultDAO.registResult(result, this.connection);
 
         // DataBaseとの接続を切断する
-        matchDAO.closeConnection(this.connection);
+        resultDAO.closeConnection(this.connection);
 
         // コネクションオブジェクトを破棄する
         this.connection = null;
 
     }
     //大会名登録時に検索する
-    public Match searchMatch(Match match) {
+    public ArrayList<Result> searchResult(Result result) {
 
-        // StudentDAOオブジェクト生成
-        MatchDAO matchDAO = new MatchDAO();
+        // MatchDAOオブジェクト生成
+        ArrayList<Result> list = new ArrayList<Result>();
+        ResultDAO resultDAO = new ResultDAO();
 
         // DataBaseへ接続し、コネクションオブジェクトを生成する
-        this.connection = matchDAO.createConnection();
+        this.connection = resultDAO.createConnection();
 
-        // 検索する
-        match = matchDAO.searchMatch(match, this.connection);
+        // リストを作成する
+        list = resultDAO.searchResult(result,this.connection);
 
         // DataBaseとの接続を切断する
-        matchDAO.closeConnection(this.connection);
+        resultDAO.closeConnection(this.connection);
 
         // コネクションオブジェクトを破棄する
         this.connection = null;
 
-        return match;
+        return list;
     }
     //大会名一覧
-    public ArrayList<Match> searchMatchlist() {
+    public ArrayList<Result> searchResultlist() {
 
         // MatchDAOオブジェクト生成
-        ArrayList<Match> list = new ArrayList<Match>();
-        MatchDAO matchDAO = new MatchDAO();
+        ArrayList<Result> list = new ArrayList<Result>();
+        ResultDAO resultDAO = new ResultDAO();
 
         // DataBaseへ接続し、コネクションオブジェクトを生成する
-        this.connection = matchDAO.createConnection();
+        this.connection = resultDAO.createConnection();
 
         // リストを作成する
-        list = matchDAO.searchMatchlist(this.connection);
+        list = resultDAO.searchResultlist(this.connection);
 
         // DataBaseとの接続を切断する
-        matchDAO.closeConnection(this.connection);
+        resultDAO.closeConnection(this.connection);
 
         // コネクションオブジェクトを破棄する
         this.connection = null;

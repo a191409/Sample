@@ -28,7 +28,7 @@ public class Login extends HttpServlet {
         // requestオブジェクトの文字エンコーディングの設定
         request.setCharacterEncoding("UTF-8");
         // forwardはrequestオブジェクトを引数として、次のページに渡すことができる
-        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
         dispatcher.forward(request, response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
         System.out.println("取得した文字列は" + pass + "です！");
 
         // studentオブジェクトに情報を格納
-        User user = new User(id, name, pass);
+        User user = new User(id, name, pass,null,null);
 
         // loginManagerオブジェクトの生成
         UserManager manager = new UserManager();

@@ -1,72 +1,93 @@
 //  自分が格納されているフォルダ名
 package beans;
 
-public class User {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+
+public class User extends Default{
 
     // 属性
-    private int id = 0; //ユーザー識別ID
-    private String userName = null;//ログインID
-    private String userPass = null;//パスワード
+    private String name = null;//ログインID
+    private String pass = null;//パスワード
 
     // 初期値を引数に持ったコンストラクタ
-    public User(int id,String userName,String userPass) {
+    public User(int id, String name, String pass, Timestamp created_at,Timestamp updated_at) {
+		super(id, created_at, updated_at);
+		this.name = name;
+		this.pass = pass;
 
-        this.id = id;
-        this.userName = userName;
-        this.userPass = userPass;
-
-    }
-
+	}
     // 初期値を引数に持たないコンストラクタ
     // Java beansは初期値を持たないコンストラクタが必ず必要
     public User() {
+    	super();
     }
-
-  	/**
-  	* Returns value of id
-  	* @return
-  	*/
-  	public int getId() {
-  		return id;
-  	}
-
-  	/**
-  	* Sets new value of id
-  	* @param
-  	*/
-  	public void setId(int id) {
-  		this.id = id;
-  	}
-
   	/**
   	* Returns value of userName
   	* @return
   	*/
-  	public String getUserName() {
-  		return userName;
+  	public String getName() {
+  		return name;
   	}
 
   	/**
   	* Sets new value of userName
   	* @param
   	*/
-  	public void setUserName(String userName) {
-  		this.userName = userName;
+  	public void setName(String name) {
+  		this.name = name;
   	}
 
   	/**
   	* Returns value of userPass
   	* @return
   	*/
-  	public String getUserPass() {
-  		return userPass;
+  	public String getPass() {
+  		return pass;
   	}
 
   	/**
   	* Sets new value of userPass
   	* @param
   	*/
-  	public void setUserPass(String userPass) {
-  		this.userPass = userPass;
+  	public void setPass(String pass) {
+  		this.pass = pass;
   	}
+
+	public void hashPassword(){
+		this.pass=getHash(this.name,this.pass);
+	}
+	private String getHash(String name, String password) {
+		final String HASH_ALGORITHM = "SHA-256";
+		final int STRETCH_COUNT = 1024;
+		final String FIXED_SALT = "vBjRGHZ6awqJL9JDQuNftAzaPSnHszQN";
+		MessageDigest messageDigest = null;
+		try {
+			messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		String salt = name + FIXED_SALT;
+		messageDigest.update(salt.getBytes());
+		byte[] hashed = messageDigest.digest(password.getBytes());
+		for (int i = 0; i < STRETCH_COUNT; i++) {
+			hashed = messageDigest.digest(hashed);
+		}
+		return getHexString(hashed);
+	}
+	private String getHexString(byte[] bytes) {
+		StringBuffer stringBuffer = new StringBuffer();
+		for (int i = 0; i < bytes.length; i++) {
+			stringBuffer.append(Integer.toHexString((bytes[i] >> 4) & 0x0f));
+			stringBuffer.append(Integer.toHexString(bytes[i] & 0x0f));
+		}
+		return stringBuffer.toString();
+	}
+	public static User getCurrentUser(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		return (User)session.getAttribute("user");
+	}
 }

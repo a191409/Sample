@@ -2,9 +2,9 @@
 <%@ include file="common/import.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  </head>
+<head>
+  <%@ include file="common/head.jsp"%>
+</head>
   <body>
     <h2>ログイン画面</h2>
     <span class="label label-danger">${Error}</span>
